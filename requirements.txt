@@ -1,0 +1,24 @@
+# Core — reproduction pipeline (tested against these minimum versions on Colab T4, CUDA 12.x)
+transformers>=4.44
+accelerate>=0.33
+bitsandbytes>=0.43        # 4-bit NF4 quantisation (GPU only)
+peft>=0.12               # LoRA / QLoRA
+trl>=0.9                 # SFTTrainer for core-model fine-tuning
+sentence-transformers>=3.0
+datasets>=2.20
+faiss-cpu>=1.8           # dense index (HNSW); use faiss-gpu if available
+rank-bm25>=0.2.2         # optional; src.retrieval ships its own BM25 fallback
+sacrebleu>=2.4           # BLEU; src.metrics has a pure-python fallback
+beautifulsoup4>=4.12
+lxml>=5.0
+pyyaml>=6.0
+numpy>=1.24
+scipy>=1.10
+scikit-learn>=1.3
+pandas>=2.0
+matplotlib>=3.7
+
+# Notebook authoring (not needed at run time)
+nbformat>=5.9
+
+# The CPU test suite (tests/run_cpu_tests.py) needs only: numpy, scipy, scikit-learn, beautifulsoup4, lxml, pyyaml.

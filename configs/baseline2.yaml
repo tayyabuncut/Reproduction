@@ -1,0 +1,45 @@
+# Baseline 2 - CMU RAG (Li, Yuan & Zhang, 2024). Defaults follow Sec. 4-5 of the paper.
+seed: 42
+data:
+  repo_url: https://github.com/anlp-team/LTI_Neural_Navigator
+  repo_dir: ./LTI_Neural_Navigator     # cloned location; corpus + QA pairs are discovered inside it
+  use_sample_fallback: false           # true only for an offline smoke test (NOT for reported numbers)
+  max_docs: null                       # cap corpus docs for a faster run; null = all
+  chunk_words: 250                      # paper uses 1000; reduced so top-5 context fits Llama-2's 4k window
+
+retrieval:
+  embedding_model: mixedbread-ai/mxbai-embed-large-v1
+  reranker_model: BAAI/bge-reranker-large
+  retrieve_k: 10
+  rerank_top_n: 5
+  use_mmr: true
+
+core:
+  model_id: meta-llama/Llama-2-7b-chat-hf
+  load_in_4bit: true
+  max_new_tokens: 128
+
+finetune_embedding:
+  run: true
+  epochs: 10
+  batch_size: 8
+  max_steps: null        # set 17390 to match the paper's reported step count
+  warmup_ratio: 0.1
+  output_dir: ./ft_embedding
+
+finetune_core:
+  run: true
+  lora_r: 16
+  lora_alpha: 32
+  lr: 2.0e-4
+  epochs: 5
+  max_steps: 1000
+  batch_size: 8
+  output_dir: ./ft_core_lora
+
+eval:
+  n_draws: 4
+  draw_size: 128
+  cosine_model: sentence-transformers/all-MiniLM-L6-v2
+  # Table 1 configurations to run:
+  configs: [baseline_no_rag, raw_rag, rag_ft_embedding, rag_ft_core, rag_ft_both]

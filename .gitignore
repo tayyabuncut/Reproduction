@@ -1,0 +1,23 @@
+# caches
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# cloned dataset (link in README instead of committing — assignment rule: don't upload large datasets)
+LTI_Neural_Navigator/
+data/*
+!data/.gitkeep
+
+# fine-tuned model weights (large, regenerable)
+ft_core_lora/
+ft_embedding/
+ft_embedding_demo/
+ft_embedding_v2/
+*.bin
+*.safetensors
+
+# secrets
+*.token
+.env
+
+# keep results/ and its figures tracked (required deliverable)
